@@ -31,13 +31,18 @@ public class KittenController {
 	}
 
 	@PostMapping("/createKitten") // fancy
-	public void createKitten(@RequestBody Kitten kitten) { // less fancy
-		this.service.createKitten(kitten);
+	public Kitten createKitten(@RequestBody Kitten kitten) { // less fancy
+		return this.service.createKitten(kitten);
 	}
 
 	@GetMapping("/getAllKittens")
 	public List<Kitten> getAllKittens() {
 		return this.service.getAllKittens();
+	}
+
+	@GetMapping("/getByName/{name}")
+	public List<Kitten> getByName(@PathVariable String name) {
+		return this.service.getByName(name);
 	}
 
 	@GetMapping("/getKitten/{id}")

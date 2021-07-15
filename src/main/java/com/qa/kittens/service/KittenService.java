@@ -6,7 +6,7 @@ import com.qa.kittens.data.Kitten;
 
 public interface KittenService {
 
-	public void createKitten(Kitten kitten);
+	public Kitten createKitten(Kitten kitten);
 
 	public List<Kitten> getAllKittens();
 
@@ -15,5 +15,7 @@ public interface KittenService {
 	public Kitten replaceKitten(int id, Kitten newKitten);
 
 	public String deleteKitten(int id);
+
+	List<Kitten> getByName(String name);
 
 }

@@ -3,20 +3,20 @@ package com.qa.kittens.service;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.qa.kittens.data.Kitten;
 
 @Service
-@Primary // tells Spring just to make this one
+
 public class KittenServiceList implements KittenService {
 	private List<Kitten> kittens = new ArrayList<>();
 
 	@Override
-	public void createKitten(Kitten kitten) { // less fancy
+	public Kitten createKitten(Kitten kitten) { // less fancy
 		System.out.println(kitten);
 		this.kittens.add(kitten);
+		return this.kittens.get(this.kittens.size() - 1);
 	}
 
 	@Override
@@ -40,6 +40,12 @@ public class KittenServiceList implements KittenService {
 		this.kittens.remove(id);
 
 		return "Deleted kitten at index: " + id;
+	}
+
+	@Override
+	public List<Kitten> getByName(String name) {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 }
