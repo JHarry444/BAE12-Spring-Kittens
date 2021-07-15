@@ -10,6 +10,8 @@ import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMock
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.context.SpringBootTest.WebEnvironment;
 import org.springframework.http.MediaType;
+import org.springframework.test.context.jdbc.Sql;
+import org.springframework.test.context.jdbc.Sql.ExecutionPhase;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.RequestBuilder;
 import org.springframework.test.web.servlet.ResultMatcher;
@@ -19,6 +21,9 @@ import com.qa.kittens.data.Kitten;
 
 @SpringBootTest(webEnvironment = WebEnvironment.RANDOM_PORT) // try random ports until it finds a free one
 @AutoConfigureMockMvc
+// loads both sql scripts from the resources folder and executes them BEFORE each test
+@Sql(scripts = { "classpath:kitten-schema.sql",
+		"classpath:kitten-data.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 public class KittenControllerIntegrationTest {
 
 	@Autowired // tells Spring to inject the MockMVC object into this class
@@ -41,22 +46,23 @@ public class KittenControllerIntegrationTest {
 
 		// check the response body and status
 
-		ResultMatcher checkStatus = status().is(200);
+		ResultMatcher checkStatus = status().is(201);
 
 		Kitten testCreatedKit = new Kitten("Jess", "Black and White", 57, 10);
-		testCreatedKit.setId(1); // due to the AUTO_INCREMENT
+		testCreatedKit.setId(2); // due to the AUTO_INCREMENT
 		String testCreatedKitAsJSON = this.mapper.writeValueAsString(testCreatedKit);
 
 		ResultMatcher checkBody = content().json(testCreatedKitAsJSON);
-// SEND request and check status + body
+		// SEND request and check status + body
 		this.mockMVC.perform(request).andExpect(checkStatus).andExpect(checkBody);
 	}
 
+	@Test
 	void testCreateAbridged() throws Exception {
 		this.mockMVC
 				.perform(post("/createKitten").contentType(MediaType.APPLICATION_JSON)
 						.content(this.mapper.writeValueAsString(new Kitten("Jess", "Black and White", 57, 10))))
 				.andExpect(status().is(201)).andExpect(content()
-						.json(this.mapper.writeValueAsString(new Kitten(1, "Jess", "Black and White", 57, 10))));
+						.json(this.mapper.writeValueAsString(new Kitten(2, "Jess", "Black and White", 57, 10))));
 	}
 }
