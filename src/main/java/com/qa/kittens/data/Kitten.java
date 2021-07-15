@@ -1,7 +1,20 @@
 package com.qa.kittens.data;
 
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+
+@Entity
+// tells Spring that this class represents a table in the db
 public class Kitten {
 
+	@Id // Primary Key
+	@GeneratedValue(strategy = GenerationType.IDENTITY) // AUTO_INCREMENT
+	private int id;
+
+	@Column(name = "fullName", unique = true)
 	private String name;
 	private String breed;
 
@@ -17,7 +30,16 @@ public class Kitten {
 	}
 
 	public Kitten() {
-		// TODO Auto-generated constructor stub
+		// REQUIRED
+	}
+
+	// REQUIRED
+	public int getId() {
+		return id;
+	}
+
+	public void setId(int id) {
+		this.id = id;
 	}
 
 	public String getName() {
