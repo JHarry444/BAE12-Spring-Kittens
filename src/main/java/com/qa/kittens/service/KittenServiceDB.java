@@ -2,6 +2,8 @@ package com.qa.kittens.service;
 
 import java.util.List;
 
+import javax.transaction.Transactional;
+
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
@@ -35,8 +37,10 @@ public class KittenServiceDB implements KittenService {
 	}
 
 	@Override
+	@Transactional
 	public Kitten getKitten(int id) {
-		return this.repo.findById(id).get();
+		Kitten found = this.repo.findById(id).get();
+		return found;
 	}
 
 	@Override

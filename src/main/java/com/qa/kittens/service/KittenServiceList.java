@@ -8,7 +8,6 @@ import org.springframework.stereotype.Service;
 import com.qa.kittens.data.Kitten;
 
 @Service
-
 public class KittenServiceList implements KittenService {
 	private List<Kitten> kittens = new ArrayList<>();
 

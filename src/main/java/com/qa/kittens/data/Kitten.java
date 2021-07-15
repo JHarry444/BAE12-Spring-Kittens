@@ -21,6 +21,15 @@ public class Kitten {
 	private int age;
 	private int cuteness;
 
+	public Kitten(int id, String name, String breed, int age, int cuteness) {
+		super();
+		this.id = id;
+		this.name = name;
+		this.breed = breed;
+		this.age = age;
+		this.cuteness = cuteness;
+	}
+
 	public Kitten(String name, String breed, int age, int cuteness) {
 		super();
 		this.name = name;

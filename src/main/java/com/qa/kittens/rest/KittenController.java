@@ -2,6 +2,8 @@ package com.qa.kittens.rest;
 
 import java.util.List;
 
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -31,8 +33,9 @@ public class KittenController {
 	}
 
 	@PostMapping("/createKitten") // fancy
-	public Kitten createKitten(@RequestBody Kitten kitten) { // less fancy
-		return this.service.createKitten(kitten);
+	public ResponseEntity<Kitten> createKitten(@RequestBody Kitten kitten) { // less fancy
+		Kitten created = this.service.createKitten(kitten);
+		return new ResponseEntity<>(created, HttpStatus.CREATED); // body, code
 	}
 
 	@GetMapping("/getAllKittens")
