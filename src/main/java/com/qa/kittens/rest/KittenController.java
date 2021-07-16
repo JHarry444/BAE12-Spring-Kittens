@@ -54,13 +54,15 @@ public class KittenController {
 	}
 
 	@PutMapping("/replaceKitten/{id}")
-	public Kitten replaceKitten(@PathVariable int id, @RequestBody Kitten newKitten) {
-		return this.service.replaceKitten(id, newKitten);
+	public ResponseEntity<Kitten> replaceKitten(@PathVariable int id, @RequestBody Kitten newKitten) {
+		Kitten body = this.service.replaceKitten(id, newKitten);
+		return new ResponseEntity<Kitten>(body, HttpStatus.ACCEPTED);
 	}
 
 	@DeleteMapping("/deleteKitten/{id}")
-	public String deleteKitten(@PathVariable int id) {
-		return this.service.deleteKitten(id);
+	public ResponseEntity<String> deleteKitten(@PathVariable int id) {
+		String body = this.service.deleteKitten(id);
+		return new ResponseEntity<String>(body, HttpStatus.NO_CONTENT);
 	}
 
 }
