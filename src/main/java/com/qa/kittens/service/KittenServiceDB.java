@@ -51,6 +51,8 @@ public class KittenServiceDB implements KittenService {
 		// modify record
 		found.setAge(newKitten.getAge());
 		found.setName(newKitten.getName());
+		found.setBreed(newKitten.getBreed());
+		found.setCuteness(newKitten.getCuteness());
 
 		// save it back to overwrite it
 		Kitten updated = this.repo.save(found);
