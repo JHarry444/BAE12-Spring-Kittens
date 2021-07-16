@@ -1,5 +1,6 @@
 package com.qa.kittens.rest;
 
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.delete;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
@@ -64,5 +65,17 @@ public class KittenControllerIntegrationTest {
 						.content(this.mapper.writeValueAsString(new Kitten("Jess", "Black and White", 57, 10))))
 				.andExpect(status().is(201)).andExpect(content()
 						.json(this.mapper.writeValueAsString(new Kitten(2, "Jess", "Black and White", 57, 10))));
+	}
+
+	@Test
+	void testDelete() throws Exception {
+		// create request
+		RequestBuilder request = delete("/deleteKitten/1");
+
+		// check response
+		ResultMatcher checkStatus = status().is(204);
+		ResultMatcher checkBody = content().string("Deleted: 1");
+
+		this.mockMVC.perform(request).andExpect(checkStatus).andExpect(checkBody);
 	}
 }
