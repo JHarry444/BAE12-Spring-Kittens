@@ -2,6 +2,7 @@ package com.qa.kittens.service;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
+import java.util.List;
 import java.util.Optional;
 
 import org.junit.jupiter.api.Test;
@@ -25,6 +26,44 @@ public class KittenServiceDBUnitTest {
 	private KittenRepo repo;
 
 	@Test
+	void testCreate() {
+
+		Kitten newKitten = new Kitten("Jess", "Black and White", 12, 10);
+
+		Kitten savedKitten = new Kitten(1, "Jess", "Black and White", 12, 10);
+
+		Mockito.when(this.repo.save(newKitten)).thenReturn(savedKitten);
+
+		assertThat(this.service.createKitten(newKitten)).isEqualTo(savedKitten);
+
+		Mockito.verify(this.repo, Mockito.times(1)).save(newKitten);
+	}
+
+	@Test
+	void testGetAll() {
+		List<Kitten> testKittens = List.of(new Kitten(1, "Jess", "Black and White", 12, 10));
+
+		Mockito.when(this.repo.findAll()).thenReturn(testKittens);
+
+		assertThat(this.service.getAllKittens()).isEqualTo(testKittens);
+
+		Mockito.verify(this.repo, Mockito.times(1)).findAll();
+	}
+
+	@Test
+	void testGetAllByName() {
+
+		List<Kitten> testKittens = List.of(new Kitten(1, "Jess", "Black and White", 12, 10));
+
+		String search = "jess";
+		Mockito.when(this.repo.findByNameIgnoreCase(search)).thenReturn(testKittens);
+
+		assertThat(this.service.getByName(search)).isEqualTo(testKittens);
+
+		Mockito.verify(this.repo, Mockito.times(1)).findByNameIgnoreCase(search);
+	}
+
+	@Test
 	void testUpdate() {
 		// GIVEN
 		int id = 1;
@@ -45,10 +84,25 @@ public class KittenServiceDBUnitTest {
 	}
 
 	@Test
-	void testDelete() {
+	void testDeleteSucceeds() {
 		int id = 1;
 
+		Mockito.when(this.repo.existsById(id)).thenReturn(false);
+
 		assertThat(this.service.deleteKitten(id)).isEqualTo("Deleted: " + id);
+
+		Mockito.verify(this.repo, Mockito.times(1)).existsById(id);
+	}
+
+	@Test
+	void testDeleteFails() {
+		int id = 1;
+
+		Mockito.when(this.repo.existsById(id)).thenReturn(true);
+
+		assertThat(this.service.deleteKitten(id)).isEqualTo("Not deleted: " + id);
+
+		Mockito.verify(this.repo, Mockito.times(1)).existsById(id);
 	}
 
 }
