@@ -1,7 +1,9 @@
 package com.qa.kittens.service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
@@ -25,8 +27,7 @@ public class KittenServiceList implements KittenService {
 
 	@Override
 	public Kitten getKitten(int id) {
-		Kitten found = this.kittens.get(id);
-		return found;
+		return this.kittens.get(id);
 	}
 
 	@Override
@@ -43,7 +44,11 @@ public class KittenServiceList implements KittenService {
 
 	@Override
 	public List<Kitten> getByName(String name) {
-		// TODO Auto-generated method stub
+		return Collections.emptyList();
+	}
+
+	@Override
+	public Kitten patchKitten(int id, Optional<String> name, Optional<Integer> age, Optional<String> breed, Optional<Integer> cuteness) {
 		return null;
 	}
 
