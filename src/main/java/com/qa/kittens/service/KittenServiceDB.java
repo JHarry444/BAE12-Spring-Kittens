@@ -49,12 +49,15 @@ public class KittenServiceDB implements KittenService {
 		// pull out existing record
 		Kitten found = this.repo.findById(id).orElseThrow(EntityNotFoundException::new);
 
+		System.out.println("FOUND: " + found);
+
 		// modify record
 		found.setAge(newKitten.getAge());
 		found.setName(newKitten.getName());
 		found.setBreed(newKitten.getBreed());
 		found.setCuteness(newKitten.getCuteness());
 
+		System.out.println("FOUND AFTER UPDATE: " + found);
 		// save it back to overwrite it
 		return this.repo.save(found);
 	}
@@ -76,7 +79,11 @@ public class KittenServiceDB implements KittenService {
 	public String deleteKitten(int id) {
 		this.repo.deleteById(id);
 
-		return "Deleted: " + id;
+		if (this.repo.existsById(id)) {
+			return "Not deleted: " + id;
+		} else {
+			return "Deleted: " + id;
+		}
 	}
 
 }
