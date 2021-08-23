@@ -1,11 +1,15 @@
 package com.qa.kittens.rest;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.websocket.server.PathParam;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
@@ -53,16 +57,25 @@ public class KittenController {
 		return this.service.getKitten(id);
 	}
 
+	@PatchMapping("/patchKitten/{id}")
+	public ResponseEntity<Kitten> patchKitten(@PathVariable int id, @PathParam("name") Optional<String> name,
+			@PathParam("age") Optional<Integer> age, @PathParam("breed") Optional<String> breed) {
+
+		Kitten updated = this.service.patchKitten(id, name, age, breed);
+
+		return new ResponseEntity<>(updated, HttpStatus.ACCEPTED);
+	}
+
 	@PutMapping("/replaceKitten/{id}")
 	public ResponseEntity<Kitten> replaceKitten(@PathVariable int id, @RequestBody Kitten newKitten) {
 		Kitten body = this.service.replaceKitten(id, newKitten);
-		return new ResponseEntity<Kitten>(body, HttpStatus.ACCEPTED);
+		return new ResponseEntity<>(body, HttpStatus.ACCEPTED);
 	}
 
 	@DeleteMapping("/deleteKitten/{id}")
 	public ResponseEntity<String> deleteKitten(@PathVariable int id) {
 		String body = this.service.deleteKitten(id);
-		return new ResponseEntity<String>(body, HttpStatus.NO_CONTENT);
+		return new ResponseEntity<>(body, HttpStatus.NO_CONTENT);
 	}
 
 }

@@ -1,7 +1,9 @@
 package com.qa.kittens.service;
 
 import java.util.List;
+import java.util.Optional;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 
 import org.springframework.context.annotation.Primary;
@@ -39,14 +41,13 @@ public class KittenServiceDB implements KittenService {
 	@Override
 	@Transactional
 	public Kitten getKitten(int id) {
-		Kitten found = this.repo.findById(id).get();
-		return found;
+		return this.repo.findById(id).orElseThrow(EntityNotFoundException::new);
 	}
 
 	@Override
 	public Kitten replaceKitten(int id, Kitten newKitten) {
 		// pull out existing record
-		Kitten found = this.repo.findById(id).get();
+		Kitten found = this.repo.findById(id).orElseThrow(EntityNotFoundException::new);
 
 		// modify record
 		found.setAge(newKitten.getAge());
@@ -55,9 +56,18 @@ public class KittenServiceDB implements KittenService {
 		found.setCuteness(newKitten.getCuteness());
 
 		// save it back to overwrite it
-		Kitten updated = this.repo.save(found);
+		return this.repo.save(found);
+	}
 
-		return updated;
+	@Override
+	public Kitten patchKitten(int id, Optional<String> name, Optional<Integer> age, Optional<String> breed) {
+		Kitten found = this.repo.findById(id).orElseThrow(EntityNotFoundException::new);
+
+		name.ifPresent(found::setName);
+		age.ifPresent(found::setAge);
+		breed.ifPresent(found::setBreed);
+
+		return this.repo.save(found);
 	}
 
 	@Override

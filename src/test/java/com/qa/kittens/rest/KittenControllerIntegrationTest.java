@@ -33,7 +33,7 @@ import com.qa.kittens.data.Kitten;
 @Sql(scripts = { "classpath:kitten-schema.sql",
 		"classpath:kitten-data.sql" }, executionPhase = ExecutionPhase.BEFORE_TEST_METHOD)
 @ActiveProfiles("test") // sets profile for the test class
-public class KittenControllerIntegrationTest {
+class KittenControllerIntegrationTest {
 
 	@Autowired // tells Spring to inject the MockMVC object into this class
 	private MockMvc mockMVC;
