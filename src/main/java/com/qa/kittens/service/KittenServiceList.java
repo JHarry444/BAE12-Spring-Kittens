@@ -48,7 +48,7 @@ public class KittenServiceList implements KittenService {
 	}
 
 	@Override
-	public Kitten patchKitten(int id, Optional<String> name, Optional<Integer> age, Optional<String> breed) {
+	public Kitten patchKitten(int id, Optional<String> name, Optional<Integer> age, Optional<String> breed, Optional<Integer> cuteness) {
 		return null;
 	}
 

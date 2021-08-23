@@ -13,7 +13,7 @@ public interface KittenService {
 
 	public Kitten getKitten(int id);
 
-	public Kitten patchKitten(int id, Optional<String> name, Optional<Integer> age, Optional<String> breed);
+	public Kitten patchKitten(int id, Optional<String> name, Optional<Integer> age, Optional<String> breed, Optional<Integer> cuteness);
 
 	public Kitten replaceKitten(int id, Kitten newKitten);
 

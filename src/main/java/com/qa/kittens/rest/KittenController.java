@@ -7,6 +7,7 @@ import javax.websocket.server.PathParam;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
@@ -20,6 +21,7 @@ import com.qa.kittens.data.Kitten;
 import com.qa.kittens.service.KittenService;
 
 @RestController // Tells Spring to make an instance of this class
+@CrossOrigin
 public class KittenController {
 
 	// dependency
@@ -59,9 +61,10 @@ public class KittenController {
 
 	@PatchMapping("/patchKitten/{id}")
 	public ResponseEntity<Kitten> patchKitten(@PathVariable int id, @PathParam("name") Optional<String> name,
-			@PathParam("age") Optional<Integer> age, @PathParam("breed") Optional<String> breed) {
+			@PathParam("age") Optional<Integer> age, @PathParam("breed") Optional<String> breed,
+			@PathParam("cuteness") Optional<Integer> cuteness) {
 
-		Kitten updated = this.service.patchKitten(id, name, age, breed);
+		Kitten updated = this.service.patchKitten(id, name, age, breed, cuteness);
 
 		return new ResponseEntity<>(updated, HttpStatus.ACCEPTED);
 	}

@@ -60,12 +60,14 @@ public class KittenServiceDB implements KittenService {
 	}
 
 	@Override
-	public Kitten patchKitten(int id, Optional<String> name, Optional<Integer> age, Optional<String> breed) {
+	public Kitten patchKitten(int id, Optional<String> name, Optional<Integer> age, Optional<String> breed,
+			Optional<Integer> cuteness) {
 		Kitten found = this.repo.findById(id).orElseThrow(EntityNotFoundException::new);
 
 		name.ifPresent(found::setName);
 		age.ifPresent(found::setAge);
 		breed.ifPresent(found::setBreed);
+		cuteness.ifPresent(found::setCuteness);
 
 		return this.repo.save(found);
 	}
