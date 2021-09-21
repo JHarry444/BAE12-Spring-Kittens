@@ -4,6 +4,7 @@ import java.util.List;
 import java.util.Optional;
 
 import com.qa.kittens.data.Kitten;
+import com.qa.kittens.dto.KittenDTO;
 
 public interface KittenService {
 
@@ -11,9 +12,10 @@ public interface KittenService {
 
 	public List<Kitten> getAllKittens();
 
-	public Kitten getKitten(int id);
+	public KittenDTO getKitten(int id);
 
-	public Kitten patchKitten(int id, Optional<String> name, Optional<Integer> age, Optional<String> breed, Optional<Integer> cuteness);
+	public Kitten patchKitten(int id, Optional<String> name, Optional<Integer> age, Optional<String> breed,
+			Optional<Integer> cuteness);
 
 	public Kitten replaceKitten(int id, Kitten newKitten);
 

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.qa.kittens.data.Kitten;
+import com.qa.kittens.dto.KittenDTO;
 import com.qa.kittens.service.KittenService;
 
 @RestController // Tells Spring to make an instance of this class
@@ -55,7 +56,7 @@ public class KittenController {
 	}
 
 	@GetMapping("/getKitten/{id}")
-	public Kitten getKitten(@PathVariable int id) {
+	public KittenDTO getKitten(@PathVariable int id) {
 		return this.service.getKitten(id);
 	}
 

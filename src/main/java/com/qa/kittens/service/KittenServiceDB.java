@@ -4,13 +4,14 @@ import java.util.List;
 import java.util.Optional;
 
 import javax.persistence.EntityNotFoundException;
-import javax.transaction.Transactional;
 
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Service;
 
 import com.qa.kittens.data.Kitten;
 import com.qa.kittens.data.repos.KittenRepo;
+import com.qa.kittens.dto.KittenDTO;
+import com.qa.kittens.dto.OwnerDTO;
 
 @Service
 @Primary // tells Spring just to make this one
@@ -21,6 +22,24 @@ public class KittenServiceDB implements KittenService {
 	public KittenServiceDB(KittenRepo repo) {
 		super();
 		this.repo = repo;
+	}
+
+	public KittenDTO mapToDTO(Kitten kitten) {
+		KittenDTO dto = new KittenDTO();
+		dto.setAge(kitten.getAge());
+		dto.setBreed(kitten.getBreed());
+		dto.setCuteness(kitten.getCuteness());
+		dto.setName(kitten.getName());
+		dto.setId(kitten.getId());
+
+		OwnerDTO ownerDTO = new OwnerDTO();
+//		ownerDTO.setAddress(kitten.getOwner().getAddress());
+		ownerDTO.setContactNumber(kitten.getOwner().getContactNumber());
+		ownerDTO.setName(kitten.getOwner().getName());
+		ownerDTO.setId(kitten.getOwner().getId());
+		dto.setOwner(ownerDTO);
+
+		return dto;
 	}
 
 	@Override
@@ -39,9 +58,11 @@ public class KittenServiceDB implements KittenService {
 	}
 
 	@Override
-	@Transactional
-	public Kitten getKitten(int id) {
-		return this.repo.findById(id).orElseThrow(EntityNotFoundException::new);
+	public KittenDTO getKitten(int id) {
+		Kitten found = this.repo.findById(id).orElseThrow(EntityNotFoundException::new);
+
+		KittenDTO dto = this.mapToDTO(found);
+		return dto;
 	}
 
 	@Override

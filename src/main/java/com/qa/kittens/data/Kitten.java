@@ -5,6 +5,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 
 @Entity
 // tells Spring that this class represents a table in the db
@@ -20,6 +21,9 @@ public class Kitten {
 
 	private int age;
 	private int cuteness;
+
+	@ManyToOne // basically the join column 'owner_id'
+	private Owner owner;
 
 	public Kitten(int id, String name, String breed, int age, int cuteness) {
 		super();
@@ -121,6 +125,14 @@ public class Kitten {
 
 	public void setCuteness(int cuteness) {
 		this.cuteness = cuteness;
+	}
+
+	public Owner getOwner() {
+		return owner;
+	}
+
+	public void setOwner(Owner owner) {
+		this.owner = owner;
 	}
 
 	@Override
